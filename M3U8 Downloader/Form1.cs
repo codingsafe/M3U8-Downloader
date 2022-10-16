@@ -442,14 +442,27 @@ namespace M3U8_Downloader
             m_urlList = Regex.Split(textBox_Adress.Text, Environment.NewLine, RegexOptions.IgnoreCase);
             m_count = 0;
 
+            string url = m_urlList[0];
+            string fileName = textBox_Name.Text + m_count.ToString();
+            if (!string.IsNullOrEmpty(url) && url.Contains("----"))
+            {
+                string[] urlArray = Regex.Split(url, "----", RegexOptions.IgnoreCase);
+                url = urlArray[0]?.Trim();
+                fileName = urlArray[1]?.Trim();
+            }
+
             string command;
             if (menu_Proxy.Checked)
             {
-                command = "-http_proxy " + m_proxy + " -rw_timeout 10000000 -i " + "\"" + m_urlList[0] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+ //               command = "-http_proxy " + m_proxy + " -rw_timeout 10000000 -i " + "\"" + m_urlList[0] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+
+                command = "-http_proxy " + m_proxy + " -rw_timeout 10000000 -i " + "\"" + url + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + fileName + ".mp4" + "\"";
             }
             else
             {
-                command = "-rw_timeout 10000000 -i " + "\"" + m_urlList[0] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+//                command = "-rw_timeout 10000000 -i " + "\"" + m_urlList[0] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+
+                command = "-rw_timeout 10000000 -i " + "\"" + url + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + fileName + ".mp4" + "\"";
             }
 
             // 启动进程执行相应命令,此例中以执行ffmpeg.exe为例  
@@ -556,14 +569,27 @@ namespace M3U8_Downloader
                 windowsTaskbar.SetProgressValue(0, 100, this.Handle);
                 Application.DoEvents();
 
+                string url = m_urlList[m_count];
+                string fileName = textBox_Name.Text + m_count.ToString();
+                if (!string.IsNullOrEmpty(url) && url.Contains("----"))
+                {
+                    string[] urlArray = Regex.Split(url, "----", RegexOptions.IgnoreCase);
+                    url = urlArray[0]?.Trim();
+                    fileName = urlArray[1]?.Trim();
+                }
+
                 string command;
                 if (menu_Proxy.Checked)
                 {
-                    command = "-http_proxy " + m_proxy + " -rw_timeout 10000000 -i " + "\"" + m_urlList[m_count] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+                    //command = "-http_proxy " + m_proxy + " -rw_timeout 10000000 -i " + "\"" + m_urlList[m_count] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+
+                    command = "-http_proxy " + m_proxy + " -rw_timeout 10000000 -i " + "\"" + url + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + fileName + ".mp4" + "\"";
                 }
                 else
                 {
-                    command = "-rw_timeout 10000000 -i " + "\"" + m_urlList[m_count] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+                    //command = "-rw_timeout 10000000 -i " + "\"" + m_urlList[m_count] + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + textBox_Name.Text + m_count.ToString() + ".mp4" + "\"";
+
+                    command = "-rw_timeout 10000000 -i " + "\"" + url + "\"" + " -c copy -y -bsf:a aac_adtstoasc -movflags +faststart " + "\"" + m_path + "\\" + fileName + ".mp4" + "\"";
                 }
 
                 
